@@ -54,7 +54,6 @@ in
     hashedPassword = "$6$DBbezqjoI2AL9.k5$PfVb9OH8fu8zAlQ3OPSuCx7EgE9SZUbmapNHlBgll4toTDIqxsVhlXlwBqyWGRnnYKI2lxD3rQ9UHIq9NDLJY0";
   };
   security.sudo.wheelNeedsPassword = false;
-  security.pam.services.kde.kwallet.enable = true;
 
   # ═══════════════════════════════════════════════════════════════════════════════
   # DESKTOP (KDE Plasma 6)
@@ -106,6 +105,16 @@ in
   };
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # BLUETOOTH
+  # ═══════════════════════════════════════════════════════════════════════════════
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
+  services.blueman.enable = true;
+
+  # KDE Wallet (for keyring/password storage)
+  security.pam.services.sddm.enableKwallet = true;
 
   # ═══════════════════════════════════════════════════════════════════════════════
   # GAMING
