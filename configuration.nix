@@ -65,7 +65,8 @@ in
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde ];
+    extraPortals = [ pkgs.kdePackages.xdg-desktop-portal-kde
+    pkgs.moonlight-qt ];
   };
 
   # ═══════════════════════════════════════════════════════════════════════════════
@@ -141,7 +142,40 @@ in
     steam steam-run
     nvtopPackages.nvidia
     kdePackages.xdg-desktop-portal-kde
+    pkgs.moonlight-qt
   ];
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # SUNSHINE (Game Streaming Server)
+  # ═══════════════════════════════════════════════════════════════════════════════
+  services.sunshine = {
+    enable = true;
+    autoStart = true;
+    capSysAdmin = true;
+    openFirewall = true;
+    package = pkgs.sunshine.override {
+      cudaSupport = true;
+      cudaPackages = pkgs.cudaPackages;
+    };
+    settings = {
+      sunshine_name = "tankles";
+      encoder = "nvenc";
+      capture = "kms";
+      adapter_name = "/dev/dri/card1";
+    };
+    applications.apps = [
+      { name = "Desktop"; image-path = "desktop.png"; }
+    ];
+  };
+
+  hardware.uinput.enable = true;
+
+  networking.firewall = {
+    enable = true;
+    trustedInterfaces = [ "tailscale0" ];
+    allowedUDPPorts = [ config.services.tailscale.port ];
+  };
+
 
   system.stateVersion = "25.11";
 
